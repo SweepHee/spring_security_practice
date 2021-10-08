@@ -14,5 +14,4 @@ public class BoardVo {
     private String name;
 
 
-
 }
