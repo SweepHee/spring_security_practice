@@ -13,4 +13,6 @@ public class BoardVo {
     private String contents;
     private String name;
 
+
+
 }
