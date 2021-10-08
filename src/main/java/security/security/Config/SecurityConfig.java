@@ -1,12 +1,12 @@
 package security.security.Config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,14 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import security.security.Service.Impl.MemberServiceImpl;
-import security.security.Service.MemberService;
+
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     MemberServiceImpl memberService;
+    private AuthFailureHandler AuthFailureHandler;
 
 
     @Override
@@ -38,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
 //                .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/user/login/result")
+                    .defaultSuccessUrl("/admin")
+                .failureHandler(AuthFailureHandler)
+                .usernameParameter("id") // 로그인 시 사용할 파라미터 이름정하기
 //                .successHandler(new MyLoginSuccessHandler())
                 .permitAll()
                 .and() // 로그아웃 설정
@@ -50,33 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 403 예외처리 핸들링
                 .exceptionHandling()
-                .accessDeniedPage("/user/denied");
-//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-
-
-//        http.formLogin()
-//                .loginPage("/login") // 로그인페이지 url
-////                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/") // 로그인성공 url
-//                .usernameParameter("id") // 로그인 시 사용할 파라미터 이름정하기
-//                .failureUrl("/") // 로그인 실패 url
-//                .and() //
-//                .logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/members/logout")) // 로그아웃 url
-//                .logoutSuccessUrl("/"); // 로그아웃 성공 시 이동할 url
-
-        // 접근권한 설정하기
-//        http.authorizeRequests()
-                // 아래 경로는 로그인안해도 접근가능하도록 설정
-//                .mvcMatchers("/", "/login", "/admin", "/**").permitAll()
-                // 아래 경로는 ADMIN이어야 접근 가능
-//                .mvcMatchers("/admin**").hasRole("ADMIN")
-                // 그 외의 경로는 로그인해야한다
-//                .anyRequest().authenticated();
-
-        // 인증되지 않은 사용자가 리소스에 접근했을때 수행되는 핸들러
-//        http.exceptionHandling()
-//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint());
+                .accessDeniedPage("/user/denied")
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 
     }
 
@@ -102,4 +81,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
+
+
+
+
 }
+

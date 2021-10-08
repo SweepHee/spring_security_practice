@@ -31,8 +31,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 
         System.out.println("hello!");
-
+        System.out.println(id);
         MemberVo memberVo = memberMapper.findById(id);
+        System.out.println(memberVo.toString());
         if (memberVo == null) {
             throw new UsernameNotFoundException(id);
         }
@@ -49,4 +50,5 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
     public List<MemberVo> getList() {
         return memberMapper.getList();
     }
+
 }

@@ -2,6 +2,7 @@ package security.security.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,9 @@ public class MainController {
     @Autowired
     BoardService boardService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("text", "hi");
@@ -39,8 +43,10 @@ public class MainController {
 //        MemberVo memberVo = memberService.findById("test");
 //        System.out.println(memberVo.toString());
 
-        List<BoardVo> boardVo = boardService.getList();
-        System.out.println(boardVo.toString());
+//        List<BoardVo> boardVo = boardService.getList();
+//        System.out.println(boardVo.toString());
+
+        System.out.println(passwordEncoder.encode("1234"));
 
 
         return "login";
@@ -50,6 +56,11 @@ public class MainController {
     @GetMapping("/admin")
     public String admin() {
         return "admin";
+    }
+
+    @GetMapping("/fail")
+    public String fail() {
+        return "fail";
     }
 
 
