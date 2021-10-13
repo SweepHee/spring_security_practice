@@ -11,5 +11,7 @@ public interface MemberService {
 
     public MemberVo findById(String id);
     public List<MemberVo> getList();
+    public List<MemberVo> getPaginationList(int offset, int limit);
+    public int getTotalCount();
 
 }

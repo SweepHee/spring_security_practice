@@ -12,4 +12,8 @@ public interface MemberMapper {
 
     public List<MemberVo> getList();
 
+    public int getTotalCount();
+
+    public List<MemberVo> getPaginationList(int offset, int limit);
+
 }

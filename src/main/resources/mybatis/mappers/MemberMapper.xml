@@ -12,4 +12,12 @@
         select * from member
     </select>
 
+    <select id="getTotalCount" resultType="int">
+        select count(*) from member
+    </select>
+
+    <select id="getPaginationList" resultType="MemberVo">
+        select * from member offset #{offset} limit #{limit}
+    </select>
+
 </mapper>

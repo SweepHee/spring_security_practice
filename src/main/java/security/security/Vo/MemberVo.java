@@ -9,6 +9,7 @@ import lombok.ToString;
 public class MemberVo {
 
     private String id;
+    private long idx;
     private String password;
 
 }
