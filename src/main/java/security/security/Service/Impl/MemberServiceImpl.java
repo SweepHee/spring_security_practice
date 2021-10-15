@@ -59,4 +59,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         return memberMapper.getTotalCount();
     }
 
+    @Override
+    public List<MemberVo> getListRegexp(String regex) {
+        return memberMapper.getListRegexp(regex);
+    }
+
 }

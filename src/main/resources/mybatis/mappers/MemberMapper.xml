@@ -20,4 +20,8 @@
         select * from member offset #{offset} limit #{limit}
     </select>
 
+    <select id="getListRegexp" resultType="MemberVo">
+        select * from member where id ~ '('|| #{regex} ||').*'
+    </select>
+
 </mapper>

@@ -16,4 +16,6 @@ public interface MemberMapper {
 
     public List<MemberVo> getPaginationList(int offset, int limit);
 
+    public List<MemberVo> getListRegexp(String regex);
+
 }

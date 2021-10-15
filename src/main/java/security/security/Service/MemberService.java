@@ -14,4 +14,6 @@ public interface MemberService {
     public List<MemberVo> getPaginationList(int offset, int limit);
     public int getTotalCount();
 
+    public List<MemberVo> getListRegexp(String regex);
+
 }

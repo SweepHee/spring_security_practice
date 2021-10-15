@@ -34,6 +34,7 @@ public class MainController {
 
     @Autowired
     GlobalFunction globalFunction;
+    
 
     @GetMapping("/")
     public String index(Model model, HttpServletRequest request) {
@@ -45,11 +46,18 @@ public class MainController {
         int offset = (page-1) * limit;
 
         List<MemberVo> memberVoList = memberService.getPaginationList(offset, limit);
+        System.out.println("test@@@@");
+        List<MemberVo> memberVoRegexList = memberService.getListRegexp("bbit|og|ca");
+        System.out.println(memberVoRegexList);
+
+
         int totalCount = memberService.getTotalCount();
 
         int lastPage = (int) Math.ceil(totalCount/limit);
 
         String pageExcludeQueryString = globalFunction.splitQueryString(request, "page");
+
+
 
 
         model.addAttribute("lists", memberVoList);
