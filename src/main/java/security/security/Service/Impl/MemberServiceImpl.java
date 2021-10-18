@@ -64,4 +64,9 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
         return memberMapper.getListRegexp(regex);
     }
 
+    @Override
+    public List<MemberVo> findKeyAndValue(String key, String searchValue) {
+        return memberMapper.findKeyAndValue(key, searchValue);
+    }
+
 }

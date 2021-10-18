@@ -21,7 +21,14 @@
     </select>
 
     <select id="getListRegexp" resultType="MemberVo">
-        select * from member where id ~ '('|| #{regex} ||').*'
+        <bind name="pattern" value="'(' + regex + ').*'" />
+        select * from member where id ~ #{pattern}
+    </select>
+
+
+    <select id="findKeyAndValue" resultType="MemberVo">
+        <bind name="value" value="'%' + searchValue + '%'" />
+        select * from member where ${key} like #{value}
     </select>
 
 </mapper>

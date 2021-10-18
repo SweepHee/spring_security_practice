@@ -124,6 +124,7 @@
 
         _initRequest() {
             const xhr = this.xhr = new XMLHttpRequest();
+            xhr.setRequestHeader("X-XSRF-TOKEN", "")
             xhr.open('POST', '/editor/upload', true);
             xhr.responseType = 'json';
         }

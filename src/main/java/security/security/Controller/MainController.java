@@ -11,6 +11,7 @@ import security.security.Global.GlobalFunction;
 import security.security.Service.BoardService;
 import security.security.Service.MemberService;
 import security.security.Vo.BoardVo;
+import security.security.Vo.ImageLink;
 import security.security.Vo.MemberVo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,9 +47,9 @@ public class MainController {
         int offset = (page-1) * limit;
 
         List<MemberVo> memberVoList = memberService.getPaginationList(offset, limit);
-        System.out.println("test@@@@");
         List<MemberVo> memberVoRegexList = memberService.getListRegexp("bbit|og|ca");
-        System.out.println(memberVoRegexList);
+
+        List<MemberVo> memberVoKeyAndValueList = memberService.findKeyAndValue("id", "cat");
 
 
         int totalCount = memberService.getTotalCount();
@@ -60,7 +61,7 @@ public class MainController {
 
 
 
-        model.addAttribute("lists", memberVoList);
+        model.addAttribute("lists", memberVoKeyAndValueList);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
         model.addAttribute("lastPage", lastPage);
@@ -162,62 +163,61 @@ public class MainController {
 
 
 
-
-
-    @PostMapping("/image/upload")
+    @PostMapping("/editor/upload")
     @ResponseBody
-    public String uploadImage(@RequestParam("file") MultipartFile multi, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ImageLink uploadImage(@RequestParam("file") MultipartFile multi, HttpServletRequest request) throws Exception {
 
-        try {
+        System.out.println("hello world");
 
-            //String uploadpath = request.getServletContext().getRealPath(path);
-            String uploadpath = "/upload/img/";
-            String originFilename = multi.getOriginalFilename();
-            String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
-            long size = multi.getSize();
-
-            String saveFileName = "";
-
-            Calendar calendar = Calendar.getInstance();
-            saveFileName += calendar.get(Calendar.YEAR);
-            saveFileName += calendar.get(Calendar.MONTH);
-            saveFileName += calendar.get(Calendar.DATE);
-            saveFileName += calendar.get(Calendar.HOUR);
-            saveFileName += calendar.get(Calendar.MINUTE);
-            saveFileName += calendar.get(Calendar.SECOND);
-            saveFileName += calendar.get(Calendar.MILLISECOND);
-            saveFileName += extName;
-
-
-            System.out.println("uploadpath : " + uploadpath);
-            System.out.println("originFilename : " + originFilename);
-            System.out.println("extensionName : " + extName);
-            System.out.println("size : " + size);
-            System.out.println("saveFileName : " + saveFileName);
-
-            ArrayList<File> imgStor = new ArrayList<>();
-            ArrayList<String> imgName = new ArrayList<>();
-            ArrayList<String> imgUrl = new ArrayList<>();
-
+//        try {
+//
+//            //String uploadpath = request.getServletContext().getRealPath(path);
+//            String uploadpath = "/upload/img/";
+//            String originFilename = multi.getOriginalFilename();
+//            String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
+//            long size = multi.getSize();
+//
+//            String saveFileName = "";
+//
+//            Calendar calendar = Calendar.getInstance();
+//            saveFileName += calendar.get(Calendar.YEAR);
+//            saveFileName += calendar.get(Calendar.MONTH);
+//            saveFileName += calendar.get(Calendar.DATE);
+//            saveFileName += calendar.get(Calendar.HOUR);
+//            saveFileName += calendar.get(Calendar.MINUTE);
+//            saveFileName += calendar.get(Calendar.SECOND);
+//            saveFileName += calendar.get(Calendar.MILLISECOND);
+//            saveFileName += extName;
+//
+//
+//            System.out.println("uploadpath : " + uploadpath);
+//            System.out.println("originFilename : " + originFilename);
+//            System.out.println("extensionName : " + extName);
+//            System.out.println("size : " + size);
+//            System.out.println("saveFileName : " + saveFileName);
+//
+//
+//            ArrayList<String> imgUrl = new ArrayList<>();
+//
+//            String url = "";
 //            ImageLink link = new ImageLink();
-            if(!multi.isEmpty())
-            {
-                imgName.add(saveFileName);
-                File file = new File(uploadpath, saveFileName);
-                imgStor.add(file);
-                if(!file.exists()) // 해당 경로가 없을 경우
-                    file.mkdirs();  // 폴더 생성
-                multi.transferTo(file);
-//                this.url = "https://www.willchair.co.kr/img/img_stor/"+saveFileName;
+//            if(!multi.isEmpty())
+//            {
+//                File file = new File(uploadpath, saveFileName);
+//                if(!file.exists()) // 해당 경로가 없을 경우
+//                    file.mkdirs();  // 폴더 생성
+//                multi.transferTo(file);
+//                url = "/upload/img/" + saveFileName;
 //                link.setFileName(saveFileName);
 //                link.setUrl(url);
-            }
-            return "";
+//            }
+//
 //            return link;
-        }catch(Exception e)
-        {
-            System.out.println(e);
-        }
+//
+//        }catch(Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
         return null;
     }
 

@@ -16,4 +16,6 @@ public interface MemberService {
 
     public List<MemberVo> getListRegexp(String regex);
 
+    public List<MemberVo> findKeyAndValue(String key, String searchValue);
+
 }
