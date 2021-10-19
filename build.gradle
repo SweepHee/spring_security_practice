@@ -43,6 +43,8 @@ dependencies {
 	implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
 	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
 	implementation ('org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16')
+	compileOnly(group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.0.0')
+	compileOnly(group: 'com.google.guava', name: 'guava', version: '23.5-jre')
 	implementation('org.apache.tomcat.embed:tomcat-embed-jasper')
 	implementation('javax.servlet:jstl:1.2')
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'

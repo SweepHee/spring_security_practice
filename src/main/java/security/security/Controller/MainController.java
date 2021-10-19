@@ -61,7 +61,7 @@ public class MainController {
 
 
 
-        model.addAttribute("lists", memberVoKeyAndValueList);
+        model.addAttribute("lists", memberVoList);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
         model.addAttribute("lastPage", lastPage);
