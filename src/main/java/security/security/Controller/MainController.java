@@ -35,40 +35,45 @@ public class MainController {
 
     @Autowired
     GlobalFunction globalFunction;
-    
 
     @GetMapping("/")
-    public String index(Model model, HttpServletRequest request) {
-
-        int page = request.getParameter("page") != null
-                ? Integer.parseInt(request.getParameter("page"))
-                : 1;
-        int limit = 5;
-        int offset = (page-1) * limit;
-
-        List<MemberVo> memberVoList = memberService.getPaginationList(offset, limit);
-        List<MemberVo> memberVoRegexList = memberService.getListRegexp("bbit|og|ca");
-
-        List<MemberVo> memberVoKeyAndValueList = memberService.findKeyAndValue("id", "cat");
-
-
-        int totalCount = memberService.getTotalCount();
-
-        int lastPage = (int) Math.ceil(totalCount/limit);
-
-        String pageExcludeQueryString = globalFunction.splitQueryString(request, "page");
-
-
-
-
-        model.addAttribute("lists", memberVoList);
-        model.addAttribute("totalCount", totalCount);
-        model.addAttribute("page", page);
-        model.addAttribute("lastPage", lastPage);
-        model.addAttribute("queryString", pageExcludeQueryString);
-
-        return "index";
+    public String test() {
+        return "test";
     }
+    
+
+//    @GetMapping("/")
+//    public String index(Model model, HttpServletRequest request) {
+//
+//        int page = request.getParameter("page") != null
+//                ? Integer.parseInt(request.getParameter("page"))
+//                : 1;
+//        int limit = 5;
+//        int offset = (page-1) * limit;
+//
+//        List<MemberVo> memberVoList = memberService.getPaginationList(offset, limit);
+//        List<MemberVo> memberVoRegexList = memberService.getListRegexp("bbit|og|ca");
+//
+//        List<MemberVo> memberVoKeyAndValueList = memberService.findKeyAndValue("id", "cat");
+//
+//
+//        int totalCount = memberService.getTotalCount();
+//
+//        int lastPage = (int) Math.ceil(totalCount/limit);
+//
+//        String pageExcludeQueryString = globalFunction.splitQueryString(request, "page");
+//
+//
+//
+//
+//        model.addAttribute("lists", memberVoList);
+//        model.addAttribute("totalCount", totalCount);
+//        model.addAttribute("page", page);
+//        model.addAttribute("lastPage", lastPage);
+//        model.addAttribute("queryString", pageExcludeQueryString);
+//
+//        return "index";
+//    }
 
     @GetMapping("/async")
     public String async(HttpServletRequest request, Model model) {
