@@ -15,12 +15,15 @@ import java.io.IOException;
 public class RcdaCrawling implements Crawling {
 
     public String url = "http://www.rcda.or.kr/2020/news_add/contest.asp?Page=";
-    public int page = 10;
+    public int page = 500;
 
+    public void setPage (int page) {
+        this.page = page;
+    }
     @Override
     public void craw() {
 
-        File driverFile = new File("/Users/seungheejeon/Desktop/workspace/2021_09/security/src/main/resources/chromedriver");
+        File driverFile = new File("/Users/seungheejeon/Desktop/workspace/2021_09/security/src/main/resources/chromedriver_96");
         String driverFilePath = driverFile.getAbsolutePath();
 
         if (!driverFile.exists() && driverFile.isFile()) {
@@ -53,6 +56,12 @@ public class RcdaCrawling implements Crawling {
                     String url = urlXpath.getAttribute("href");
                     System.out.println(title + ":: title");
                     System.out.println(url + ":: url");
+
+//                    String index = url.index;
+//                    String mybatis_is_index = true;
+//                    if (!mybatis_is_index) {
+//                        dbinsert
+//                    }
                 }
 
                 Thread.sleep(500);

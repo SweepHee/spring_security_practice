@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,21 +26,35 @@ public class KStartUpCrawling implements Crawling {
     * */
 
     private String url = "https://www.k-startup.go.kr/common/announcement/announcementList.do?mid=30004&bid=701&searchAppAt=A";
+    private int page = 1;
+
+    @Override
+    public void setPage(int page) {
+        this.page = page;
+    }
 
     @Override
     public void craw() {
 
-        File driverFile = new File("/Users/seungheejeon/Desktop/workspace/2021_09/security/src/main/resources/chromedriver");
+
+
+        File driverFile = new File("/Users/seungheejeon/Desktop/workspace/2021_09/security/src/main/resources/chromedriver_96");
+
+
         String driverFilePath = driverFile.getAbsolutePath();
+
 
         if (!driverFile.exists() && driverFile.isFile()) {
             throw new RuntimeException("Not found");
         }
 
+
         ChromeDriverService service = new ChromeDriverService.Builder()
                 .usingDriverExecutable(driverFile)
                 .usingAnyFreePort()
                 .build();
+
+
 
         try {
             service.start();
@@ -49,6 +64,7 @@ public class KStartUpCrawling implements Crawling {
 
         WebDriver driver = new ChromeDriver(service);
         WebDriverWait wait = new WebDriverWait(driver, 10);
+        System.out.println("K-STARTUP 시작");
 
         try {
             for (int i=page; i>0; i--) {
@@ -63,12 +79,18 @@ public class KStartUpCrawling implements Crawling {
                     Pattern p = Pattern.compile("(['\"])[^'\"]*\\1");
                     Matcher m = p.matcher(url);
                     System.out.println(title + ":: title");
-                    String[] pattern = new String[3];
+                    ArrayList<String> pattern = new ArrayList<String>();
+
                     while (m.find()) {
-                        System.out.println(m.group());
+//                        System.out.println(m.group());
 //                        pattern.add
+                        pattern.add(m.group());
                     }
 
+
+                    System.out.println(
+                        "https://www.k-startup.go.kr/common/announcement/announcementDetail.do?searchPostSn=" + pattern.get(1).replace("'", "") +"&searchPrefixCode=" + pattern.get(0).replace("'", "")
+                    );
 
                 }
 
