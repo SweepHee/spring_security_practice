@@ -20,16 +20,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class SbscCrawling implements Crawling {
+public class YouthSeoulCrawling implements Crawling {
 
     @Autowired
     ContentsMapper contentsMapper;
 
     /*
-    *
-    *  */
+     * 서울청년정책
+     * https://youth.seoul.go.kr/
+     *  */
 
-    private String url = "https://sbsc.seoul.go.kr/fe/support/seoul/NR_list.do?bbsCd=1&bbsSeq=&searchVals=&bbsGrpCds_all=on&orgCd=&currentPage=";
+    private String url = "https://youth.seoul.go.kr/site/main/youth/politics/user/list?&pageSize=12&cp=";
     private int page = 1;
 
     @Override
@@ -44,12 +45,9 @@ public class SbscCrawling implements Crawling {
 
 
         String driverFilePath = driverFile.getAbsolutePath();
-
-
         if (!driverFile.exists() && driverFile.isFile()) {
             throw new RuntimeException("Not found");
         }
-
 
         ChromeDriverService service = new ChromeDriverService.Builder()
                 .usingDriverExecutable(driverFile)
@@ -70,25 +68,35 @@ public class SbscCrawling implements Crawling {
 
         try {
             for (int i=page; i>0; i--) {
-                System.out.println("페이지::" + i);
+                System.out.println("페이지222::" + i);
                 driver.get(url + i);
 
                 for(int j=1; j<11; j++) {
-                    WebElement titleXpath = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/table/tbody/tr["+j+"]/td[2]/a"));
-                    WebElement targetTypeXpath = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/table/tbody/tr["+j+"]/td[3]"));
-                    WebElement endTimeXpath = driver.findElement(By.xpath("//*[@id=\"container\"]/div/div[2]/table/tbody/tr["+j+"]/td[4]"));
+                    WebElement titleXpath = driver.findElement(By.xpath("//*[@id=\"searchMove\"]/li["+j+"]/div/a"));
+                    WebElement endTimeXpath = driver.findElement(By.xpath("//*[@id=\"searchMove\"]/li["+j+"]/div/ul/li[1]"));
 
                     String title = titleXpath.getText();
-                    String targettype = targetTypeXpath.getText();
                     String endtime = endTimeXpath.getText();
 
                     String url = titleXpath.getAttribute("onclick");
-                    String intStr = url.replaceAll("[^0-9]", "");
 
-                    String bodyurl = "https://sbsc.seoul.go.kr/fe/support/seoul/NR_view.do?bbsCd=1&bbsSeq=" + intStr;
+                    String[] split = url.split(",");
+                    String intStr = split[0].replaceAll("[^0-9]", "");
 
-                    ContentsVo vo =new ContentsVo();
-                    vo.setTargetname("서울기업지원센터");
+
+                    Pattern p = Pattern.compile("\\[(.*?)\\]");
+                    Matcher m = p.matcher(title);
+                    ArrayList<String> pattern = new ArrayList<String>();
+
+                    while (m.find()) {
+                        pattern.add(m.group());
+                    }
+
+                    String bodyurl = "https://youth.seoul.go.kr/site/main/youth/politics/user/detail/" + intStr;
+                    String targettype = pattern.get(0).replaceAll("\\[", "").replaceAll("\\]", "");
+
+                    ContentsVo vo = new ContentsVo();
+                    vo.setTargetname("서울청년포털");
                     vo.setTargetnamecode("임의코드");
                     vo.setTargettype(targettype);
                     vo.setTargettypecode(targettype);
@@ -101,7 +109,7 @@ public class SbscCrawling implements Crawling {
                     HashMap<String, String> params = new HashMap<>();
                     params.put("bodyurl", bodyurl);
                     boolean isUrl = contentsMapper.isUrl(params);
-                    System.out.println("이즈유알엘::" + isUrl);
+                    System.out.println("이미 수집된 URL입니다::" + isUrl);
                     if (!isUrl) {
                         contentsVos.add(vo);
                     }

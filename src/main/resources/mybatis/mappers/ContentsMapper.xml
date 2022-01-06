@@ -5,12 +5,12 @@
 
 
     <select id="isUrl" parameterType="map" resultType="boolean">
-        select exists(select 1 from web.contents where bodyurl = #{bodyurl})
+        select exists(select 1 from itda_web.contents where bodyurl = #{bodyurl})
     </select>
 
 
     <insert id="create" parameterType="ContentsVo">
-        insert into web.contents
+        insert into itda_web.contents
             (
                 targetname, targetnamecode, targettype, targettypecode, targetcost, loccode,
                 title, bodyurl, end_time, save_time, cntview

@@ -7,7 +7,7 @@ public interface Crawling {
     public boolean action = false;
 
     public void setPage(int page);
-    public void craw();
+    public void craw() throws InterruptedException;
 
 
 }

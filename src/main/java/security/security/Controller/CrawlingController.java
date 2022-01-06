@@ -24,10 +24,16 @@ public class CrawlingController {
     @Autowired
     SbscCrawling sbscCrawling;
 
-    @GetMapping("/craw")
-    public String index() {
+    @Autowired
+    YouthSeoulCrawling youthSeoulCrawling;
 
-        sbscCrawling.craw();
+    @Autowired
+    SeoulseCrawling seoulseCrawling;
+
+    @GetMapping("/craw")
+    public String index() throws InterruptedException {
+
+        seoulseCrawling.craw();
 
         return "/craw";
     }

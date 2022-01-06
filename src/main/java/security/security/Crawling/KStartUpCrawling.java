@@ -77,8 +77,8 @@ public class KStartUpCrawling implements Crawling {
                     String title = titleXpath.getText();
                     String url = titleXpath.getAttribute("href");
                     Pattern p = Pattern.compile("(['\"])[^'\"]*\\1");
-                    Matcher m = p.matcher(url);
                     System.out.println(title + ":: title");
+                    Matcher m = p.matcher(url);
                     ArrayList<String> pattern = new ArrayList<String>();
 
                     while (m.find()) {
