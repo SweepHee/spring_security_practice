@@ -30,11 +30,14 @@ public class CrawlingController {
     @Autowired
     SeoulseCrawling seoulseCrawling;
 
+    /* 서울산업진흥원 */
+    @Autowired
+    SbaCrawling sbaCrawling;
+
+
     @GetMapping("/craw")
     public String index() throws InterruptedException {
-
-        seoulseCrawling.craw();
-
+        sbaCrawling.craw();
         return "/craw";
     }
 

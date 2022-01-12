@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 public class KStartUpCrawling implements Crawling {
 
     /*
+    * 제대로 안됨
     * 쿼리스트링 searchPostSn, searchPrefixCode 만 가져오면 됨
     * 게시글 리스트에서 javascript:itemSelect함수에서 가져오면 된다
     * https://www.k-startup.go.kr/common/announcement/announcementDetail.do?searchPostSn=142665&searchPrefixCode=BOARD_701_001

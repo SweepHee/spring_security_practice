@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import security.security.Mapper.ContentsMapper;
 import security.security.Vo.ContentsVo;
@@ -25,6 +26,9 @@ public class YouthSeoulCrawling implements Crawling {
     @Autowired
     ContentsMapper contentsMapper;
 
+    @Autowired
+    Environment environment;
+
     /*
      * 서울청년정책
      * https://youth.seoul.go.kr/
@@ -41,8 +45,8 @@ public class YouthSeoulCrawling implements Crawling {
     @Override
     public void craw() {
 
-        File driverFile = new File("/Users/seungheejeon/Desktop/workspace/2021_09/security/src/main/resources/chromedriver_96");
-
+        String driverPath = environment.getProperty("chrome.driver.path");
+        File driverFile = new File(String.valueOf(driverPath));
 
         String driverFilePath = driverFile.getAbsolutePath();
         if (!driverFile.exists() && driverFile.isFile()) {
@@ -62,13 +66,12 @@ public class YouthSeoulCrawling implements Crawling {
 
         WebDriver driver = new ChromeDriver(service);
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        System.out.println("K-STARTUP 시작");
 
         List<ContentsVo> contentsVos = new ArrayList<>();
 
         try {
             for (int i=page; i>0; i--) {
-                System.out.println("페이지222::" + i);
+
                 driver.get(url + i);
 
                 for(int j=1; j<11; j++) {
@@ -101,7 +104,7 @@ public class YouthSeoulCrawling implements Crawling {
                     vo.setTargettype(targettype);
                     vo.setTargettypecode(targettype);
                     vo.setTargetcost("-");
-                    vo.setLoccode("02");
+                    vo.setLoccode("C02");
                     vo.setTitle(title);
                     vo.setBodyurl(bodyurl);
                     vo.setEndTime(endtime);

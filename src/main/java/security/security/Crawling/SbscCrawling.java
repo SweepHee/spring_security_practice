@@ -93,7 +93,7 @@ public class SbscCrawling implements Crawling {
                     vo.setTargettype(targettype);
                     vo.setTargettypecode(targettype);
                     vo.setTargetcost("-");
-                    vo.setLoccode("02");
+                    vo.setLoccode("C02");
                     vo.setTitle(title);
                     vo.setBodyurl(bodyurl);
                     vo.setEndTime(endtime);

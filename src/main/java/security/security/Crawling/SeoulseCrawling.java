@@ -7,15 +7,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import security.security.Mapper.ContentsMapper;
 import security.security.Vo.ContentsVo;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +23,9 @@ public class SeoulseCrawling implements Crawling {
 
     @Autowired
     ContentsMapper contentsMapper;
+
+    @Autowired
+    Environment environment;
 
     /*
      * 서울사회적기업협의회
@@ -41,8 +43,8 @@ public class SeoulseCrawling implements Crawling {
     @Override
     public void craw() throws InterruptedException {
 
-        File driverFile = new File("/Users/seungheejeon/Desktop/workspace/2021_09/security/src/main/resources/chromedriver_96");
-
+        String driverPath = environment.getProperty("chrome.driver.path");
+        File driverFile = new File(String.valueOf(driverPath));
 
         String driverFilePath = driverFile.getAbsolutePath();
         if (!driverFile.exists() && driverFile.isFile()) {
@@ -69,7 +71,7 @@ public class SeoulseCrawling implements Crawling {
 
 
         for (int i=page; i>0; i--) {
-            System.out.println("페이지222::" + i);
+
             driver.get(url + i);
 
             for(int j=1; j<16; j++) {
@@ -96,37 +98,32 @@ public class SeoulseCrawling implements Crawling {
                     driver2.get(url + i);
                     WebElement targettypeXpath = driver2.findElement(By.xpath("//*[@id=\"page\"]/div[1]/section/div/div/section/article/div[1]/div[1]/div/span[2]"));
 
-                    System.out.println("여기5");
                     String targettype = targettypeXpath.getText();
 
-                    System.out.println("여기6");
-                    System.out.println("타겟타입::" + targettype);
-
+                    /* 글 상세페이지 들어가므로 1500 기다림 */
                     Thread.sleep(1500);
 //                    driver2.quit();
 
-//                    ContentsVo vo = new ContentsVo();
-//                    vo.setTargetname("서울청년포털");
-//                    vo.setTargetnamecode("임의코드");
-//                    vo.setTargettype(targettype);
-//                    vo.setTargettypecode(targettype);
-//                    vo.setTargetcost("-");
-//                    vo.setLoccode("02");
-//                    vo.setTitle(title);
-//                    vo.setBodyurl(url);
-//                    vo.setEndTime("");
+                    ContentsVo vo = new ContentsVo();
+                    vo.setTargetname("서울사회적기업협의회");
+                    vo.setTargetnamecode("임의코드");
+                    vo.setTargettype(targettype);
+                    vo.setTargettypecode(targettype);
+                    vo.setTargetcost("-");
+                    vo.setLoccode("C02");
+                    vo.setTitle(title);
+                    vo.setBodyurl(url);
+                    vo.setEndTime("");
 
-//                    HashMap<String, String> params = new HashMap<>();
-//                    params.put("bodyurl", url);
-//                    boolean isUrl = contentsMapper.isUrl(params);
-//                    System.out.println("이미 수집된 URL입니다::" + isUrl);
-//                    if (!isUrl) {
-//                        contentsVos.add(vo);
-//                    }
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("bodyurl", url);
+                    boolean isUrl = contentsMapper.isUrl(params);
+                    if (!isUrl) {
+                        contentsVos.add(vo);
+                    }
 
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    continue;
                 }
 
             }
@@ -135,15 +132,12 @@ public class SeoulseCrawling implements Crawling {
         }
 
         /* 빈 리스트가 아니면 크레이트 */
-//        if (!contentsVos.isEmpty()) {
-//            contentsMapper.create(contentsVos);
-//        }
-
-
+        if (!contentsVos.isEmpty()) {
+            contentsMapper.create(contentsVos);
+        }
 
         driver.quit();
         service.stop();
-
     }
 
 
