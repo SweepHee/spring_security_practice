@@ -19,7 +19,7 @@
         <foreach collection="contentsVos" item="vo" index="index" separator=",">
             (
                 #{vo.targetname}, #{vo.targetnamecode}, #{vo.targettype}, #{vo.targettypecode}, #{vo.targetcost},
-                #{vo.loccode}, #{vo.title}, #{vo.bodyurl}, #{vo.endTime}::timestamp, now(), 0
+                #{vo.loccode}, #{vo.title}, #{vo.bodyurl}, #{vo.endTime}, now(), 0
             )
         </foreach>
     </insert>

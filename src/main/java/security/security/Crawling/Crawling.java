@@ -3,7 +3,7 @@ package security.security.Crawling;
 public interface Crawling {
 
     public String url = "";
-    public Integer page = 10;
+    public int page = 10;
     public boolean action = false;
 
     public void setPage(int page);

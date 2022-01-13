@@ -34,10 +34,20 @@ public class CrawlingController {
     @Autowired
     SbaCrawling sbaCrawling;
 
+    /* 서울시 자영업지원센터 */
+    @Autowired
+    SeoulSbdcCrawling seoulSbdcCrawling;
+
+    /* 서울시 청년활동지원센터 */
+    @Autowired
+    SygcCrawling sygcCrawling;
+
 
     @GetMapping("/craw")
     public String index() throws InterruptedException {
-        sbaCrawling.craw();
+//        sbaCrawling.craw();
+//        seoulSbdcCrawling.craw();
+        sygcCrawling.craw();
         return "/craw";
     }
 
